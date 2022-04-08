@@ -1,0 +1,30 @@
+.toogle {
+  width: 100px;
+  height: 50px;
+  background-color: #ccc;
+  padding: 5px;
+  border-radius: 100rem;
+  margin: 25px;
+  cursor: pointer;
+}
+.toogle.active {
+  background-color: #f62682;
+}
+.spinner {
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 100rem;
+  transition: all 0.2s ease;
+}
+
+.spinner.active {
+  transform: translateX(50px);
+}
+
+.toogle-control {
+  margin: 0 25px;
+  display: flex;
+  align-items: center;
+  gap: 0 10px;
+}

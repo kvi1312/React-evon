@@ -1,0 +1,8 @@
+.toogle{
+   width: 100px;
+   height: 50px;
+   background-color: #ccc;
+   padding: 5px;
+   border-radius: 100rem;
+   margin: 25px;cursor: pointer;
+}
