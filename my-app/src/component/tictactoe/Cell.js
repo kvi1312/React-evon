@@ -1,11 +1,11 @@
 import React from "react";
 
 //props là 1 object có property là value, onClick
-const Cell = ({ value, onClick }) => {
+const Cell = ({ value, onClick, className }) => {
   // const { value, onClick } = props;
   // console.log(value, onClick);
   return (
-    <div className="game-cell" onClick={onClick}>
+    <div className={`game-cell ${className}`} onClick={onClick}>
       {value}
     </div>
   );

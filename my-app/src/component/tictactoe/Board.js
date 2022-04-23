@@ -12,6 +12,7 @@ const Board = (props) => {
           key={index}
           value={item}
           onClick={() => props.onClick(index)} //on click là prop truyền từ component Cell
+          className={item === "X" ? "is-x" : item === "O" ? "is-o" : ""}
         ></Cell>
       ))}
     </div>
