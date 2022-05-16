@@ -91,16 +91,150 @@ age: 28
 const {name, age}= student
 clg(name, age)
 
-# USE REDUCER : KHI SỬ DỤNG CÁC GIÁ TRỊ PHỨC TẠP NHƯ OBJ, ARRAY THÌ SỬ DỤNG USE REDUCER
+# USE REDUCER : KHI SỬ DỤNG CÁC GIÁ TRỊ PHỨC TẠP NHƯ OBJ, ARRAY THÌ SỬ DỤNG USE REDUCER (file card)
 
 - cú pháp :
 
-  ++ BƯỚC 1: GỌI USE REDUCER =====> const [state, dispatch] = useReducer[reducer, initital state]
-  ++ BƯỚC 2: SET ACTION ĐỂ TRUYỀN VÀO CHO REDUCER ====> const action = {type , payload} - payload là data truyền vào
-  ++ BƯỚC 3: DISPATCH ĐỂ XÁC ĐỊNH ACTION VÀ VALUE TƯƠNG ỨNG ĐỂ TRẢ VỀ
-  ++ BƯỚC 4: DƯA VÀO VALUE TRẢ VỀ MÀ SET CASE CHO REDUCER =====> const reducer (state, action )
+- luồng hoạt động :
+  //1. Init state : const [state, dispatch] = useReducer(reducer, initialValue) ==> với state, dispatch là để gọi, còn reducer, initial value là để khởi tạo
+  //2. Actions: phân tích những action cần thiết trong dự án
+  //3. Reducer : là 1 hàm nhận đầu vào là state và action, dựa vào action mà trả ra state mới, và state mới luôn cùng dữ liệu với initState
+  //4. Dispatch : _dispatch là một HÀNH ĐỘNG nhằm giúp ACTION ĐƯỢC KÍCH HOẠT, từ đó state đc thay đổi và re-render ra_
 
 -- state ban đầu là immutable (ko thể thay đổi), nên muốn set lại thì phải sử dụng spread operator "...",
 nhưng nếu state ban đầu là obj quá sâu thì sử dụng deep copy
 
 _công thức DEEP COPY : JSON.PARSE(JSON.STRINGIFY(OBJ))_
+
+# CSS MODULE
+
+-- viết dưới dạng module
+
+- viết class theo kiểu camle case
+
+# STYLE COMPONENT : code css trong file js (project card)
+
+-- cài đặt : npm i styled-components --save
+-- import styled from "styled-components";
+_import vào file js bằng cú pháp :_
+-- viết css bên ngoài compo ko đc viết trong funcitonal compo :
+_const StyleAbc = styled.tag(h1,h2,div,span....)_
+
+-- props inside styled-component : gõ cú pháp nhanh "scp" để truyền props trực tiếp trong css ===================> ${(props) =>props.ABC && css``}; muốn sử dụng thì truyền props vào tag + khi sử dụng inline props nuế việc cần xử lý ít, ngược lại nếu dài thì viết riêng ra
+
+-- import { createGlobalStyle } from "styled-components" : dùng để viết file css global
+-- có thể code theo kiểu sass (file Card2.js) :
+
+-- _sử dụng theme trong styled component_ : import ThemeProvider
+
+# TAILWINDCSS : mỗi class thực hiện 1 chức năng riêng biệt (file cardtailwind.js)
+
+-- INSTALL : npm i tailwindcss
+
+-- jit mode : cú pháp ====> abc-[...]
+-- _SỬ DỤNG PROPS TRONG TAILWIND_
+-- các chỉ số của boxshadow trong tailwind được truyền nối nhau bằng dấu gạch dưới
+
+# USE EFFECT HOOK : DÙNG ĐỂ SỬ LÝ SIDE EFFECT (file header.js, timer.js, counter.js)
+
+-- SIDE EFFECT: là khi xử lý bên trong function mà lại ảnh hưởng bên ngoài giao diện
+
+- _ỨNG DỤNG_ : EVENTS, CLOSURE, TIMERS, USESTATE, MOUNTED/ UNMOUNTED , ===, CALL API
+
+- CẤU TRÚC : useEffect(callback, [deps]),
+  -- khi làm việc với obj thì nên truyền chính xác giá trị của nó vào
+  _1. useEffect (callback)_
+
+  - CÓ NGHĨA LÀ USEEFFECT LUÔN LUÔN ĐƯỢC THỰC HIỆN SAU MỖI LẦN RENDER
+  - gọi call back mỗi khi component re-render
+
+  _2. useEffect (callback, [])_
+
+  - CÓ NGHĨA LÀ USEEFFECT SẼ CHẠY ĐÚNG 1 LẦN SAU LẦN RENDER ĐẦU TIÊN VÀ CALL BACK CHẠY ĐÚNG 1 LẦN KHI COMPONENT UNMOUNTED
+  - chỉ gọi callback 1 lần sau khi component mounted
+  - sử dụng khi muốn thực hiện logic 1 lần sau khi compo đc mount và không muốn nó re-render lại
+
+  _3. useEffect (callback, [deps])_
+
+  - CÓ NGHĨA LÀ : REACT USE EFFECT SẼ DỰA VÀO GIÁ TRỊ DEPS TRONG LẦN RE-RENDER KẾ TIẾP, nó sẽ kiểm trả giá trị của deps mới so với deps trước đó, nếu khác nhau thì sẽ được thực hiện
+
+    # CLEAN UP FUNCTION :
+
+          -- dùng để tránh trường hợp callback của use effect nó gọi lại giá trị cũ mỗi khi re-render. mẹo là trong hàm return sẽ viết sự kiện đối nghịch ở trên hàm handle , dùng để clean up bộ nhớ
+          -- clean up fnc sẽ đc gọi trước khi component bị unmount
+
+    # khi sử dụng onchange để call api thì nên sử dụng LODASH.DEBOUNCE() để tránh api bị call liên tục : (file hackernews.js)
+
+          -- sử dụng package lodash : npm i lodash
+          -- dùng lodash.debounce() để wrap cái thằng setvalue của on change khiến api bị call liên tục
+
+# USE REF : THƯỜNG DÙNG KHI TRUY XUẤT VÀO DOM, lưu các giá trị qua một tham chiếu bên ngoài function component
+
+-- cú pháp : const abcRef = useRef(initialValue)
+
+    -- là 1 hàm nhận initial value và nó chỉ sử dụng giá trị khởi tạo trong lần đầu khi compo đc mount, khi re-render thì ko dùng lại initial value
+
+      _LUÔN TRẢ VỀ OBJ CÓ PROP LÀ "reference.current"_ : MUỐN DÙNG GIÁ TRỊ CỦA NÓ THÌ PHẢI .CURRENT VÀO, có thể sử dụng làm props trung gian để lưu các giá trị tham chiếu bên ngoài fnc compo
+
+      _USE STATE VÀ USE REF ĐỀU CÓ THỂ GIỮ LẠI GIÁ TRỊ CỦA 1 BIẾN GIỮA NHỮNG LẦN COMPO RE-RENDER. NHƯNG USE STATE SẼ GÂY RA RERENDER CỦA 1 COMPO VÀ USE REF THÌ KO_
+
+- khi compo chưa được mount mà đã thoát thao tác mount trước đó thì sẽ sinh ra lỗi, có thể fix lỗi đó bằng cách sử dụng useREf
+
+# CUSTOM HOOK : KHI MUỐN CUSTOM THÌ PHẢI ĐẶT TÊN HOOK BẮT ĐẦU BẰNG CHỮ USE (file app.js)
+
+- return nó về 1 dạng gì đó bên file custome hook, có thể là obj, arr...
+- ở file muốn sử dụng hook thì khai báo 1 biến bằng kiểu dữ liệu của hook cần dùng rồi gán nó bằng vơi cái hook, ví dụ const {}= useLinkNewTab()
+
+# FORM (file input.js, thư mục form) : HỌC VỀ THƯ VIỆN FORMIK
+
+- mỗi input có 1 cái name riêng biệt, dự theo name đó để set state, có thể truy cập bằng cách [e.target.name]
+  -- bài tập Movie db : thư mục form-library
+  - học đc thêm cách viết loading skeleton
+
+_cài thư viện FORMIK : npm i formik --save_
+
+    # sử dụng formik : import { useFormik } from "formik";
+
+    + với formik là 1 obj hỗ trợ nhiều phương thức, muốn xài cái nào thì gọi ra để thiết lập hoặc để sử dụng để truyền dữ liệu
+
+      -touched : trả về true hoặc false. khi mà nhấn vào 1 input và nhấn ra ngoài thì hiện tượng đó gọi là touched khi gõ vào thì xài handle change, khi nhấn ra ngoài là handleblur(có sẵn trong formik)
+      - {...formik.getFieldProps(key)} : ggiúp tự động add vào value, name, event của input với tên key được truyền vào
+
+      - Formik, Form, ErrorMessage, Field...
+
+_cài thư viện YUP : npm i yup --save_
+
+    # sử dụng : import * as yup, gọi validationSchema:Yup.object({...}) để truyền vào validate
+
+- TỐI ƯU CODE THEO CÁC PHƯƠNG THỨC CÓ SẴN CỦA FORMIK (FILE FORM FINAL)
+  - trong feild có props "as" là để set nó là textarea hay dropbox...
+  - formik có cái hook tên useField để tối ưu code
+  - formik có cái phương thức setSubmitting để set trạng thái cho form đã submit hay chưa, từ đó có thể thiết kế giaoiẹnện loading khi nút đangsubmit
+
+_CÀI ĐẶT THƯ VIỆC REACT HOOK FORM: npm install react-hook-form _ (file signupformhook)
+
+        - trong useForm(): hỗ trợ phương thức register(name,{...}) để cài đăng ký dữ liệu được gửi đi, và handleSubmit để handle dữ liệu được gửi đi, formState:{...}
+
+        - VALIDATION REACT HOOK FORM:
+           + cài đặt thư viện yupresolver để sử dụng với hookform : npm install @hookform/resolvers yup
+           + isValid: khi sử dụng isValid của FormState thì nó luôn mặc định giá trị là false, vì vậy phải thêm mod:onchange vào cho useForm()
+
+           + isDirty: khi đã chạm vào bất kì trường nào thì giá trị của isDirty = true
+           + dirtyField: giống isDirty nhưng nó trả về 1 obj chứa các trường nào đã chạm vào
+
+           +controller: phải có default value
+
+           + useController : sử dụng cho việc kiểm soát component
+
+=====> SỬ DỤNG VITE FRAMEWORK ĐỂ CÀI REACT CHO NHANH HƠN CREATE-REACT-APP
+
+# FRAGMENTS : KHI DÙNG THẺ DIV ĐỂ BAO BIẾN LẠI THÌ NÓ SẼ KHIẾN THAY ĐỔI LAYOUT, KHI ĐÓ SỬ DỤNG THẺ <Fragment> THAY CHO THẺ DIV ĐỂ HẾT LỖI MÀ LAYOUT KHÔNG CẦN PHẢI THÊM THẺ DIV
+
+# PORTAL: ĐƯA 1 PHẦN TỬ NẰM RIÊNG BÊN NGOÀI (KO NẰM TRONG THẺ NÀO HẾT), CÙNG CẤP VỚI THẰNG DIV CÓ DIV ROOT
+
+- CÁCH SỬ DỤNG :
+
+  - import ReactDOM from "react-dom"
+  - ReactDOM.createPortal(<div></div>, document.querySelector("body"))
+
+- trong dropdown: dù có overflow nào đi nữa, trừ overflow-visible thì dropdown vẫn bị cut => sử dụng portal
