@@ -8,8 +8,8 @@ import LoadingSkeleton from "../loading/LoadingSkeleton";
 const MovieSearchApp = () => {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState("");
-
   const [loading, setLoading] = useState(true);
+  
   useEffect(() => {
     async function FetchData() {
       setLoading(true);

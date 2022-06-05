@@ -15,7 +15,14 @@ import Timer from "./component/Timer";
 import Header from "./component/Header";
 import HackerNews from "./component/news/HackerNews";
 import HackerNewsWithReducer from "./component/news/HackerNewsWithReducer";
-import { Fragment, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  Fragment,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { set, update } from "lodash";
 import useLinkNewTab from "./hooks/useLinkNewTab";
 import useHover from "./hooks/useHover";
@@ -28,7 +35,22 @@ import SignUpFormHook from "./component/form/SignUpFormHook";
 import Modal from "./component/modal/Modal";
 import DropdownPortal from "./component/portal/DropdownPortal";
 import Tooltip from "./component/portal/Tooltip";
-
+import { ErrorBoundary } from "react-error-boundary";
+import PropTypes from "prop-types";
+import PortalAdvance from "./component/portal/PortalAdvance";
+import ModalBase from "./component/portal/ModalBase";
+import ModalAdvance from "./component/portal/ModalAdvance";
+import { CountProvider, useCount } from "./context/countContext";
+import HeaderMain from "./HeaderMain";
+import { AuthProvider } from "./context/authContext";
+import { GalleryProvider } from "./context/galleryContext";
+import PhotoList from "./component/gallery/PhotoList";
+import CartList from "./component/gallery/CartList";
+import { Routes, Route } from "react-router-dom";
+import Nav from "./component/Nav";
+import BlogPage from "./component/BlogPage";
+import ProfilePage from "./component/ProfilePage";
+import BlogPageDetail from "./component/BlogPageDetail";
 //parent component là App()
 // function App() {
 //   return (
@@ -413,34 +435,218 @@ import Tooltip from "./component/portal/Tooltip";
 
 //=========================== PORTAL=========================//
 
+// function App() {
+//   const [show, setshow] = useState(false);
+
+//   return (
+//     <Fragment>
+//       {/* <div className="">
+//         <Modal open={show} handleClose={() => setshow(false)}></Modal>
+//       </div>
+//       <button
+//         onClick={() => setshow(true)}
+//         className="rounded-md m-5 bg-blue-500 p-4 text-white"
+//       >
+//         Show modal
+//       </button>
+//       <div className="relative z-30">
+//         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores non
+//         eum hic veritatis, dolorem illo totam earum reiciendis animi quisquam.
+//       </div>
+
+//       //Dropdown
+//       <div className="overflow-hidden m-5">
+//         <DropdownPortal></DropdownPortal>
+//       </div> */}
+
+//       <div className="">
+//         <Tooltip text="hover me">THIS IS TOOLTIP CONTENT</Tooltip>
+//       </div>
+//     </Fragment>
+//   );
+// }
+
+// =================== React error boundary lib================//
+
+// function ErrorFallback({ error, resetErrorBoundary }) {
+//   return (
+//     <div role="alert">
+//       <p>Something went wrong:</p>
+//       <pre>{error.message}</pre>
+//       <button onClick={resetErrorBoundary}>Try again</button>
+//     </div>
+//   );
+// }
+
+// function App() {
+//   return (
+//     <div className="">
+//       <ErrorBoundary FallbackComponent={ErrorFallback}>
+//         <Game></Game>
+//         {/* nếu thằng game bị lỗi thì nó sẽ báo error trên giao diện */}
+//       </ErrorBoundary>
+//     </div>
+//   );
+// }
+// =================== PROPS TYPE PACKAGE================//
+
+// function App() {
+//   return (
+//     <div className="">
+//       <Modal open={true} handleClose={() => {}}></Modal>
+//     </div>
+//   );
+// }
+
+//======================== PORTAL ADVANCE===============//
+
+// function App() {
+//   const [openModalBase, setopenModalBase] = useState(false);
+
+//   const [openModal, setOpenModa] = useState(false);
+//   return (
+//     <div className="">
+//       <button
+//         className="rounded-lg p-5 text-white text-center bg-blue-500 mr-5"
+//         onClick={() => setopenModalBase(true)}
+//       >
+//         Show
+//       </button>
+//       <button
+//         className="rounded-lg p-5 text-white text-center bg-blue-500"
+//         onClick={() => setOpenModa(true)}
+//       >
+//         Show openModal
+//       </button>
+
+//       <ModalBase
+//         visible={openModalBase}
+//         onClose={() => setopenModalBase(false)}
+//       >
+//         <div className="bg-white p-10 rounded-lg max-w-[300px] max-h-[300px]">
+//           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed
+//           consectetur velit rem. Repellat aut aliquam eaorum ad tempore
+//           repellendus nemo.
+//         </div>
+//       </ModalBase>
+
+//       <ModalAdvance visible={openModal} onClose={() => setOpenModa(false)}>
+//         <div className="modal-content z-10 relative bg-white p-10 rounded-lg max-w-[482px] w-full">
+//           <span className="absolute top-0 flex items-center justify-center right-0 w-10 h-10 p-1 rounded-full cursor-pointer bg-white -translate-y-2/4 translate-x-2/4" onClick={() => setOpenModa(false)}>
+//             <svg
+//               width="14"
+//               height="14"
+//               viewBox="0 0 14 14"
+//               fill="none"
+//               xmlns="http://www.w3.org/2000/svg"
+//             >
+//               <path
+//                 d="M8.225 7L13.7375 1.4875C14.0875 1.1375 14.0875 0.6125 13.7375 0.2625C13.3875 -0.0875 12.8625 -0.0875 12.5125 0.2625L7 5.775L1.4875 0.2625C1.1375 -0.0875 0.6125 -0.0875 0.2625 0.2625C-0.0874998 0.6125 -0.0874998 1.1375 0.2625 1.4875L5.775 7L0.2625 12.5125C0.0875002 12.6875 0 12.8625 0 13.125C0 13.65 0.35 14 0.875 14C1.1375 14 1.3125 13.9125 1.4875 13.7375L7 8.225L12.5125 13.7375C12.6875 13.9125 12.8625 14 13.125 14C13.3875 14 13.5625 13.9125 13.7375 13.7375C14.0875 13.3875 14.0875 12.8625 13.7375 12.5125L8.225 7Z"
+//                 fill="#84878B"
+//               />
+//             </svg>
+//           </span>
+//           <h2 className="mb-5 text-4xl font-medium font-semibold text-center">
+//             Welcome Back!
+//           </h2>
+//           <div className="flex flex-col gap-3 mb-5">
+//             <label htmlFor="email" className="text-sm cursor-pointer">
+//               Email address
+//             </label>
+
+//             <input
+//               type="text"
+//               className="w-full text-sm leading-normal rounded-lg bg-[#E7ecf3] p-4"
+//               placeholder="Enter your email"
+//             />
+//           </div>
+
+//           <div className="flex flex-col gap-3 mb-5">
+//             <label htmlFor="password" className="text-sm cursor-pointer">
+//               password
+//             </label>
+
+//             <input
+//               type="text"
+//               className="w-full  text-sm leading-normal rounded-lg bg-[#E7ecf3] p-4"
+//               placeholder="Enter your password"
+//             />
+//           </div>
+//           <button className="w-full p-4 text-base font-semibold text-white bg-blue-500 rounded-lg">
+//             Sign in
+//           </button>
+//         </div>
+//       </ModalAdvance>
+//     </div>
+//   );
+// }
+
+// =========================== CONTEXT ========================//
+
+// function CountDisplay() {
+//   const [count] = useCount(); //count này destructuring từ thằng counProvider
+//   return <div>the count is: {count} </div>;
+// }
+
+// function CounterNum() {
+//   const [, setCount] = useCount();
+//   const increment = () => setCount((c) => c + 1);
+//   return (
+//     <button
+//       onClick={increment}
+//       className="p-4 rounded-lg text-white font-semibold bg-purple-500"
+//     >
+//       Increment
+//     </button>
+//   );
+// }
+
+// function App() {
+//   return (
+//     <div className="p-5 flex items-center justify-center gap-3">
+//       {/* CountDisplay và CountNum ko liên quan đến nhau nhưng nhờ sử dụng Context mà 2 thằng có thể kết nối và nút button có thể làm tăng giá trị cho thằng CountDisplay */}
+//       <CountProvider>
+//         <CountDisplay></CountDisplay>
+//         <CounterNum></CounterNum>
+//       </CountProvider>
+//     </div>
+//   );
+// }
+
+//ví dụ 2
+
+// function App() {
+//   return (
+//     <>
+//       <AuthProvider>
+//         <GalleryProvider>
+//           <HeaderMain></HeaderMain>
+//           <PhotoList></PhotoList>
+//           <CartList></CartList>
+//         </GalleryProvider>
+//       </AuthProvider>
+//     </>
+//   );
+// }
+//================================= ROUTER==========================//
+//slug : css cơ bản -> css-co-ban
 function App() {
-  const [show, setshow] = useState(false);
-
   return (
-    <Fragment>
-      {/* <div className="">
-        <Modal open={show} handleClose={() => setshow(false)}></Modal>
-      </div>
-      <button
-        onClick={() => setshow(true)}
-        className="rounded-md m-5 bg-blue-500 p-4 text-white"
-      >
-        Show modal
-      </button>
-      <div className="relative z-30">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores non
-        eum hic veritatis, dolorem illo totam earum reiciendis animi quisquam.
-      </div>
+    <div className="">
+      <Routes>
+        <Route path="/" element={<Nav></Nav>}>
+          <Route path="/" element={<>Home Page</>}></Route>
+          <Route path="/blog" element={<BlogPage></BlogPage>}></Route>
+          <Route
+            path="/blog/:slug"
+            element={<BlogPageDetail></BlogPageDetail>}
+          ></Route>
+          <Route path="/profile" element={<ProfilePage></ProfilePage>}></Route>
+        </Route>
 
-      //Dropdown
-      <div className="overflow-hidden m-5">
-        <DropdownPortal></DropdownPortal>
-      </div> */}
-
-      <div className="">
-        <Tooltip text="hover me">THIS IS TOOLTIP CONTENT</Tooltip>
-      </div>
-    </Fragment>
+        <Route path="*" element={<>this is 404 page</>}></Route>
+      </Routes>
+    </div>
   );
 }
 export default App;

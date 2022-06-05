@@ -228,7 +228,7 @@ _CÀI ĐẶT THƯ VIỆC REACT HOOK FORM: npm install react-hook-form _ (file si
 
 =====> SỬ DỤNG VITE FRAMEWORK ĐỂ CÀI REACT CHO NHANH HƠN CREATE-REACT-APP
 
-# FRAGMENTS : KHI DÙNG THẺ DIV ĐỂ BAO BIẾN LẠI THÌ NÓ SẼ KHIẾN THAY ĐỔI LAYOUT, KHI ĐÓ SỬ DỤNG THẺ <Fragment> THAY CHO THẺ DIV ĐỂ HẾT LỖI MÀ LAYOUT KHÔNG CẦN PHẢI THÊM THẺ DIV
+# FRAGMENTS : KHI DÙNG THẺ DIV ĐỂ BAO BIẾN LẠI THÌ NÓ SẼ KHIẾN THAY ĐỔI LAYOUT, KHI ĐÓ SỬ DỤNG THẺ <Fragment> hoặc <></> THAY CHO THẺ DIV ĐỂ HẾT LỖI MÀ LAYOUT KHÔNG CẦN PHẢI THÊM THẺ DIV
 
 # PORTAL: ĐƯA 1 PHẦN TỬ NẰM RIÊNG BÊN NGOÀI (KO NẰM TRONG THẺ NÀO HẾT), CÙNG CẤP VỚI THẰNG DIV CÓ DIV ROOT
 
@@ -238,3 +238,40 @@ _CÀI ĐẶT THƯ VIỆC REACT HOOK FORM: npm install react-hook-form _ (file si
   - ReactDOM.createPortal(<div></div>, document.querySelector("body"))
 
 - trong dropdown: dù có overflow nào đi nữa, trừ overflow-visible thì dropdown vẫn bị cut => sử dụng portal
+
+# package REACT-ERROR-BOUNDARY : package để báo lỗi trong react
+
+install : npm i react-error-boundary
+
+# package PROPS TYPE : PHÁT TRIỂN COMPO TỐT HƠN, GIÚP NGƯỜI DÙNG BIẾT COMPO CẦN PROPS GÌ VÀ KIỂU DỮ LIỆU CỦA NÓ HOẶC TÍNH BẮT BUỘC
+
+npm i prop-types
+
+# package CSS TRANSITION GROUP : ỨNG DỤNG ĐỂ SHOW CÁC COMPONENT MODAL CẦN THIẾT MÀ KO BỊ ĐÈ LÊN NHAU, GIẢI QUYẾT VẤN ĐỀ TRANSITION (file modalbase, index.scss, portaladvance )
+
+npm i react-transition-group
+
+- khi truyền vào classname vào CSSTransition nó sẽ sinh ra các class mới bắt đầu bằng tên class được truyền vào
+
+# CONTEXT : SẼ CUNG CẤP 1 PHƯƠNG PHÁP ĐỂ CHIA SẼ GIÁ TRỊ GIỮA CÁC COMPONENT VỚI NHAU
+
+=> hạn chế trường hợp props drilling khi truyền props thông qua quá nhiều component từ ông sang cháu
+
+- sử dụng const abc = createContext()
+- gọi abc.Provider ở hàm cần trả về
+  \*\* CONTEXT CẦN TRUYỀN PHẢI NẰM TRONG PROVIDER NẾU KO SẼ LỖI, TRONG PROVIDER CÓ PROPS LÀ VALUE
+- localstorage có cái hook riêng để sử dụng mà ko cần phải tính toán
+
+# ROUTER : npm install react-router-dom (Blogpage, profilepage, nav)
+
+- sau khi install thì import {BrowserRouter} vào file index.js rồi wrap app lại
+- <Routes> sẽ chứa các thằng <Route> con, <Route path="" element="">, nếu path="\*" dùng để báo page đó ko tồn tại
+- path="abc/:slug" : dùng để truyền các giá trị như giá trị page hoặc id của item...
+- import {Link} các các component route con : sử dụng <Link to={"/abc"}> để biến link để 1 trang khác mà ko reload lại trang
+- import {NavLink} : đây là thẻ sử dụng để hiện hiệu ứng active của 1 trang đang được truy cập
+
+- {import Outlet} : khi muốn tất cả các trang có điểm chung (ví dụ là thanh nav) thì sẽ sinh đc gọi là nested route, lúc này sử dụng outlet ở thằng nav để lôi nội dung của những thằng sử dụng thằng nav mà hiển thị lên
+
+- useParam (react-router-dom): dùng để lấy giá trị của slug được truyền vào
+- useNavigate (react-router-dom) : dùng để điều hướng
+- useSearchParams : dùng để lấy giá trị được nhập vào để tìm kiếm (xem vị dụ ở blogpage.js)
