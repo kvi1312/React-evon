@@ -51,6 +51,11 @@ import Nav from "./component/Nav";
 import BlogPage from "./component/BlogPage";
 import ProfilePage from "./component/ProfilePage";
 import BlogPageDetail from "./component/BlogPageDetail";
+import FetchingData from "./Advance/HOC/FetchingData";
+import Title from "./Advance/render props/Title";
+import HandleProps from "./Advance/render props/HandleProps";
+import Accordian from "./Advance/React compositon/Accordian";
+import Editable from "./Advance/React compositon/Editable";
 //parent component là App()
 // function App() {
 //   return (
@@ -630,22 +635,47 @@ import BlogPageDetail from "./component/BlogPageDetail";
 // }
 //================================= ROUTER==========================//
 //slug : css cơ bản -> css-co-ban
+// function App() {
+//   return (
+//     <div className="">
+//       <Routes>
+//         <Route path="/" element={<Nav></Nav>}>
+//           <Route path="/" element={<>Home Page</>}></Route>
+//           <Route path="/blog" element={<BlogPage></BlogPage>}></Route>
+//           <Route
+//             path="/blog/:slug"
+//             element={<BlogPageDetail></BlogPageDetail>}
+//           ></Route>
+//           <Route path="/profile" element={<ProfilePage></ProfilePage>}></Route>
+//         </Route>
+
+//         <Route path="*" element={<>this is 404 page</>}></Route>
+//       </Routes>
+//     </div>
+//   );
+// }
+
+//===========================DESIGN PATTERN======================//
+//HOC : giúp 1 logic được sử dụng lại thường xuyên mà không cần viết lại
+
+// function App() {
+//   return (
+//     <div>
+//       <FetchingData></FetchingData>
+//       {/* thằng function ẩn này là thằng children() được truyền từ bên title qua */}
+//       <Title>{() => <p>hello world</p>}</Title>
+//       <HandleProps></HandleProps>
+//     </div>
+//   );
+// }
+// export default App;
+
+//=========================== React composition (custom hook, pass prop) ========================//
 function App() {
   return (
     <div className="">
-      <Routes>
-        <Route path="/" element={<Nav></Nav>}>
-          <Route path="/" element={<>Home Page</>}></Route>
-          <Route path="/blog" element={<BlogPage></BlogPage>}></Route>
-          <Route
-            path="/blog/:slug"
-            element={<BlogPageDetail></BlogPageDetail>}
-          ></Route>
-          <Route path="/profile" element={<ProfilePage></ProfilePage>}></Route>
-        </Route>
-
-        <Route path="*" element={<>this is 404 page</>}></Route>
-      </Routes>
+      <Accordian header="click to show"></Accordian>
+      {/* <Editable></Editable> */}
     </div>
   );
 }

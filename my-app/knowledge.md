@@ -275,3 +275,15 @@ npm i react-transition-group
 - useParam (react-router-dom): dùng để lấy giá trị của slug được truyền vào
 - useNavigate (react-router-dom) : dùng để điều hướng
 - useSearchParams : dùng để lấy giá trị được nhập vào để tìm kiếm (xem vị dụ ở blogpage.js)
+
+# DESIGN PATTERN (THƯ MỤC ADVANCE, HOC, RENDER PROPS)
+
+- HOC là 1 design pattern giúp 1 logic được tái sử dụng mà không cần phải viết lại
+
+- Render props : Hiểu đơn giản thì render props là một phương pháp có mục đích tương tự với phương pháp sử dụng Higher Order Component, giúp chúng ta sử dụng lại logic trên nhiều component. Render Props được dùng để tạo nên thư viện vô cùng nổi tiếng trong hệ sinh thái React, đó là React-Router. dễ gây ra nested
+
+- Custom Hook:
+  - để đổi tên props của hook thì sử dụng dấu ":" ví dụ
+    const {value: value2} = useValue()
+
+- React Composition
